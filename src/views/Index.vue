@@ -188,7 +188,7 @@
       <!-- Features -->
       <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
       <div>
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Technical Specifications</h2>
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">All Ixn One Shopping</h2>
         <p class="mt-4 text-gray-500">The walnut wood card tray is precision milled to perfectly fit a stack of Focus cards. The powder coated steel divider separates active cards from new ones, or can be used to archive important task lists.</p>
 
         <dl class="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
@@ -205,25 +205,25 @@
         <img src="https://tailwindui.com/img/ecommerce-images/product-feature-03-detail-04.jpg" alt="Walnut card tray filled with cards and card angled in dedicated groove." class="rounded-lg bg-gray-100" />
       </div>
       </div>
-
+  
       <!-- Products -->
       <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Products</h2>
   
         <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           <div v-for="product in products" :key="product.id" class="group relative">
             <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-              <img :src="product.imageSrc" :alt="product.imageAlt" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
+              <img :src="product.thumbnail" :alt="product.thumbnail" class="h-full w-full object-cover object-center lg:h-full lg:w-full" />
             </div>
             <div class="mt-4 flex justify-between">
               <div>
                 <h3 class="text-sm text-gray-700">
-                  <a :href="product.href">
+                  <a :href="product.id">
                     <span aria-hidden="true" class="absolute inset-0" />
-                    {{ product.name }}
+                    {{ product.title }}
                   </a>
                 </h3>
-                <p class="mt-1 text-sm text-gray-500">{{ product.color }}</p>
+                <p class="mt-1 text-sm text-gray-500">{{ product.category }}</p>
               </div>
               <p class="text-sm font-medium text-gray-900">{{ product.price }}</p>
             </div>
@@ -231,12 +231,30 @@
         </div>
       </div>
 
+      <!-- Footer -->
+      <footer
+        class="bg-gray-200 text-center lg:text-left">
+        <div class="p-4 text-center text-gray-800 font-semibold text-sm">
+          ©  {{ currentYear  }} Copyright:
+          <a
+            class="text-gray-800 font-semibold text-sm"
+            href="/"
+            >VenCart</a
+          >
+        </div>
+      </footer>
+
+
      </div>
 
 </template>
   
   <script setup>
   import { ref } from 'vue'
+  import moment from 'moment'
+  import store from "../store"
+  import { computed } from "vue"
+  import { useRoute, useRouter } from "vue-router"
   import {
     Dialog,
     DialogPanel,
@@ -253,6 +271,15 @@
     TransitionRoot,
   } from '@headlessui/vue'
   import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+
+  const currentYear = ref('');
+  currentYear.value = moment().format('YYYY');
+
+  //product variable to get all products from the store
+  const products = computed(() => store.state.frontproducts.products);
+
+  //Get Products
+  store.dispatch("getProducts");
   
   const navigation = {
     categories: [
@@ -386,18 +413,5 @@
   { name: 'Considerations', description: 'Made from natural materials. Grain and color vary with each item.' },
   ]
 
-  const products = [
-  {
-    id: 1,
-    name: 'Basic Tee',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-    imageAlt: "Front of men's Basic Tee in black.",
-    price: '$35',
-    color: 'Black',
-  },
-  // More products...
-  ] 
-  
   const open = ref(false)
   </script>

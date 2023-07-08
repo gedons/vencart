@@ -1,19 +1,21 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "../views/Index.vue";
 import ProductView from "../views/ProductView.vue";
+import FrontLayout from "../components/FrontLayout.vue";
 // import Login from "../views/Login.vue";
 // import Register from "../views/Register.vue";
 
 
 const routes = [
-
     {
         path: "/",
-        name: 'Index',
-        component: Index
+        component: FrontLayout,        
+        children: [
+            { path: "/", name: "Index", component: Index },           
+            { path: "/products/:id", name: "ProductView", component: ProductView },
+        ]
     },
 
-    { path: "/product/:id", name: "ProductView", component: ProductView },
 
     // {
     //     path: "/login",

@@ -13,6 +13,10 @@ const store = createStore({
             // links: [],
             products: []
         },
+        currentproduct:{
+          loading: false,          
+          products: []
+      },
         // notification: {
         //     show: false,
         //     type: null,
@@ -82,17 +86,17 @@ const store = createStore({
             });
           },
 
-        //   getTask({ commit }, id) {
-        //     return axiosClient
-        //       .get(`/task/${id}`)
-        //       .then((res) => {
-        //         commit("setTask", res.data);
-        //         return res;
-        //       })
-        //       .catch((err) => {
-        //         throw err;
-        //       });
-        //   },
+          getProduct({ commit }, id) {
+            return axiosClient
+              .get(`/products/${id}`)
+              .then((res) => {
+                commit("setProduct", res.data);
+                return res;
+              })
+              .catch((err) => {
+                throw err;
+              });
+          },
                    
         //   deleteTask({ dispatch }, id) {
         //     return axiosClient.delete(`/task/${id}`)
@@ -149,9 +153,9 @@ const store = createStore({
         //     sessionStorage.removeItem("TOKEN");
         //   },
 
-        //   setTask: (state, task) => {
-        //     state.currentTask.data = task.data;
-        //   },
+          setProduct: (state, product) => {
+            state.currentproduct.products = product;
+          },
 
           setProducts: (state, frontproducts) => {
             // state.products.links = products.meta.links;
